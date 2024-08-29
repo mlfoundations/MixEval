@@ -5,8 +5,7 @@ FREE_FORM_PROMPT_BBH = "Answer the question. \nLet's think step by step."
 FREE_FORM_PROMPT_GSM8k = "Answer the question. \nLet's think step by step."
 FREE_FORM_PROMPT_MATH = "Answer the question. \nLet's think step by step."
 
-FIVE_SHOT_PREFIX_FREEFORM = \
-'''Question: The volume of a cone is given by the formula $V = \frac{1}{3}Bh$, where $B$ is the area of the base and $h$ is the height. The area of the base of a cone is 30 square units, and its height is 6.5 units. What is the number of cubic units in its volume?
+FIVE_SHOT_PREFIX_FREEFORM = """Question: The volume of a cone is given by the formula $V = \frac{1}{3}Bh$, where $B$ is the area of the base and $h$ is the height. The area of the base of a cone is 30 square units, and its height is 6.5 units. What is the number of cubic units in its volume?
 Answer the question. 
 Let's think step by step.
 Given:
@@ -78,10 +77,9 @@ Answer the question shortly.
 34
 
 
-'''
+"""
 
-FIVE_SHOT_PREFIX_MULTIPLECHOICE = \
-'''According to cell classification, prokaryotic cells are separated from eukaryotic cells. Which feature is often used to distinguish prokaryotic cells from eukaryotic cells?
+FIVE_SHOT_PREFIX_MULTIPLECHOICE = """According to cell classification, prokaryotic cells are separated from eukaryotic cells. Which feature is often used to distinguish prokaryotic cells from eukaryotic cells?
 A. life processes
 B. size differences
 C. plasma membranes
@@ -121,7 +119,7 @@ B. Log in to Facebook. Click on the bell shaped button at the top left of your F
 Answer with the option letter from the given choices directly.
 A
 
-'''
+"""
 
 
 def parse_options(options):
@@ -129,15 +127,22 @@ def parse_options(options):
     choices_str = "\n".join([f"{option_letter}. {option}" for option_letter, option in zip(option_letters, options)])
     return choices_str
 
+
 def construct_prompt_multichoice(entry):
     prompt = entry["prompt"]
     parsed_options = parse_options(entry["options"])
-    if 'context' in entry and str(entry['context']).lower() != "none" and str(entry['context']).lower() != "null" and str(entry['context']).replace(" ", "") != "":
-        context = entry['context']
+    if (
+        "context" in entry
+        and str(entry["context"]).lower() != "none"
+        and str(entry["context"]).lower() != "null"
+        and str(entry["context"]).replace(" ", "") != ""
+    ):
+        context = entry["context"]
         prompt = f"{context}\n{prompt}\n{parsed_options}\n{MULTI_CHOICE_PROMPT}"
     else:
         prompt = f"{prompt}\n{parsed_options}\n{MULTI_CHOICE_PROMPT}"
     return prompt
+
 
 def construct_prompt_freeform(entry):
     prompt = entry["prompt"]
@@ -151,10 +156,15 @@ def construct_prompt_freeform(entry):
         prompt = f"{prompt}\n{FREE_FORM_PROMPT_MATH}"
     else:
         prompt = f"{prompt}\n{FREE_FORM_PROMPT}"
-    if 'context' in entry and str(entry['context']).lower() != "none" and str(entry['context']).lower() != "null" and str(entry['context']).replace(" ", "") != "":
-        context = entry['context']
+    if (
+        "context" in entry
+        and str(entry["context"]).lower() != "none"
+        and str(entry["context"]).lower() != "null"
+        and str(entry["context"]).replace(" ", "") != ""
+    ):
+        context = entry["context"]
         prompt = f"Question: {context}\n{prompt}"
-    else: 
+    else:
         prompt = f"Question: {prompt}"
     return prompt
 
@@ -162,8 +172,12 @@ def construct_prompt_freeform(entry):
 if __name__ == "__main__":
 
     # mp_input = {'context': "How to check your Facebook feed", 'prompt': "Which solution is correct?", 'options': ["Log in to Facebook. Click on the bell shaped button at the top right of your Facebook home window.", "Log in to Facebook. Click on the bell shaped button at the top left of your Facebook home window."]}
-    ff_input = {'context': "According to some sources 363 civilians were killed in Kavadarci, 230 in Negotino and 40 in Vatasha.", 'prompt': "What were the 3 villages that people were killed in?", 'benchmark_name': "MATH"}
-    
+    ff_input = {
+        "context": "According to some sources 363 civilians were killed in Kavadarci, 230 in Negotino and 40 in Vatasha.",
+        "prompt": "What were the 3 villages that people were killed in?",
+        "benchmark_name": "MATH",
+    }
+
     # prompt_mp = construct_prompt_multichoice(mp_input)
     # print(prompt_mp)
     prompt_ff = construct_prompt_freeform(ff_input)

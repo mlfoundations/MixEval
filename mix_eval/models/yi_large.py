@@ -11,20 +11,21 @@ from openai._exceptions import RateLimitError
 from mix_eval.models.base_api import APIModelBase
 from mix_eval.api.registry import register_model
 
+
 @register_model("yi_large")
 class YI_Large(APIModelBase):
     def __init__(self, args):
         super().__init__(args)
         self.args = args
-        self.model_name = 'yi-large'
+        self.model_name = "yi-large"
 
         load_dotenv()
         self.client = OpenAI(
-            api_key=os.getenv('d_yi'),
+            api_key=os.getenv("d_yi"),
             timeout=Timeout(timeout=100.0, connect=20.0),
-            base_url="https://api.lingyiwanwu.com/v1"
+            base_url="https://api.lingyiwanwu.com/v1",
         )
-    
+
     def decode(self, inputs):
         delay = 1
         blocked = 0
@@ -40,13 +41,15 @@ class YI_Large(APIModelBase):
                 time.sleep(delay)
                 continue
             except Exception as e:
-                if 'Content Exists Risk' in str(e):
+                if "Content Exists Risk" in str(e):
                     print("Content blocked, retrying ...")
                     blocked += 1
                     if blocked > 10:
-                        print("Blocked for too many times, using 'Response not available "
-                              "due to content restrictions.' as response, exiting...")
-                        return 'Response not available due to content restrictions.'
+                        print(
+                            "Blocked for too many times, using 'Response not available "
+                            "due to content restrictions.' as response, exiting..."
+                        )
+                        return "Response not available due to content restrictions."
                     continue
                 else:
                     print(f"Error in decode, retrying...")
@@ -54,5 +57,4 @@ class YI_Large(APIModelBase):
                     time.sleep(1)
                     continue
         print(f"Failed after {self.MAX_RETRY_NUM} retries.")
-        return 'Error'
-        
+        return "Error"

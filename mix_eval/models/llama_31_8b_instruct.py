@@ -4,17 +4,22 @@ import os
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
-from mix_eval.models.base import BaseModel
+from mix_eval.models.base import ChatModel
 from mix_eval.api.registry import register_model
 from mix_eval.utils.common_utils import get_gpu_memory
 
 
-@register_model("llama_3_8b")
-class Llama_3_8B(BaseModel):
+@register_model("llama_31_8b_instruct")
+class Llama_31_8B_Instruct(ChatModel):
     def __init__(self, args):
         super().__init__(args)
-        self.model_name = "meta-llama/Meta-Llama-3-8B"
+        self.model_name = "meta-llama/Meta-Llama-3.1-8B-Instruct"
         self.attn_implementation = "flash_attention_2"  # If use default, set to None
+
+        # self.SYSTEM_MESSAGE = {"role": "system", "content": "You are a pirate chatbot who always responds in pirate speak!"} # set to None if no system message
+        self.SYSTEM_MESSAGE = None
+        self.USER_MESSAGE_TEMPLATE = lambda x: {"role": "user", "content": x}
+        self.ASSISTANT_MESSAGE_TEMPLATE = lambda x: {"role": "assistant", "content": x}
 
         self.model_dtype = torch.bfloat16
 
@@ -25,6 +30,17 @@ class Llama_3_8B(BaseModel):
         self.tokenizer = self.build_tokenizer()
         self.tokenizer.pad_token = self.tokenizer.eos_token
         self.max_input_length_closeend = min(self.model_max_len, self.max_input_length) - self.closeended_max_new_tokens
+        self.max_input_length_openend = min(self.model_max_len, self.max_input_length) - self.openended_max_new_tokens
+
+        terminators = [self.tokenizer.eos_token_id, self.tokenizer.convert_tokens_to_ids("<|eot_id|>")]
+
+        self.gen_kwargs = {
+            "do_sample": True,
+            "temperature": 0.6,
+            "top_p": 0.9,
+            "eos_token_id": terminators,
+            "pad_token_id": self.tokenizer.eos_token_id,
+        }
 
     def build_model(self):
         num_gpus = torch.cuda.device_count()
