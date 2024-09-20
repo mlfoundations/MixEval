@@ -7,7 +7,7 @@ class Qwen_2_72B_Instruct(ChatModel):
     def __init__(self, args):
         super().__init__(args)
         self.model_name = "Qwen/Qwen2-72B-Instruct"
-        self.attn_implementation = "flash_attention_2"  # If use default, set to None
+        self.attn_implementation = None  # "flash_attention_2"  # If use default, set to None
         self.trust_remote_code = True
 
         self.SYSTEM_MESSAGE = {

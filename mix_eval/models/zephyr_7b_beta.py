@@ -9,7 +9,7 @@ class Zephyr_7B_Beta(ChatModel):
     def __init__(self, args):
         super().__init__(args)
         self.model_name = "HuggingFaceH4/zephyr-7b-beta"
-        self.attn_implementation = "flash_attention_2"  # If use default, set to None
+        self.attn_implementation = None  # "flash_attention_2"  # If use default, set to None
         self.model_dtype = torch.bfloat16
         self.trust_remote_code = True
 

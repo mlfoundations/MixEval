@@ -14,7 +14,7 @@ class Mistral_8_22B_Instruct_V01(ChatModel):
     def __init__(self, args):
         super().__init__(args)
         self.model_name = "mistralai/Mixtral-8x22B-Instruct-v0.1"
-        self.attn_implementation = "flash_attention_2"  # If use default, set to None
+        self.attn_implementation = None  # "flash_attention_2"  # If use default, set to None
 
         self.SYSTEM_MESSAGE = None  # set to None if no system message
         self.USER_MESSAGE_TEMPLATE = lambda x: {"role": "user", "content": x}

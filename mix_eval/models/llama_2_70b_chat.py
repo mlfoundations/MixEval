@@ -7,7 +7,7 @@ class LLAMA_2_70B_Chat(ChatModel):
     def __init__(self, args):
         super().__init__(args)
         self.model_name = "meta-llama/Llama-2-70b-chat-hf"
-        self.attn_implementation = "flash_attention_2"  # If use default, set to None
+        self.attn_implementation = None  # "flash_attention_2"  # If use default, set to None
 
         self.SYSTEM_MESSAGE = {
             "role": "system",

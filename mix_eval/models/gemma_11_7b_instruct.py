@@ -7,7 +7,7 @@ class Gemma_11_7B_Instruct(ChatModel):
     def __init__(self, args):
         super().__init__(args)
         self.model_name = "google/gemma-1.1-7b-it"
-        self.attn_implementation = "flash_attention_2"  # If use default, set to None
+        self.attn_implementation = None  # "flash_attention_2"  # If use default, set to None
 
         self.SYSTEM_MESSAGE = None  # set to None if no system message
         self.USER_MESSAGE_TEMPLATE = lambda x: {"role": "user", "content": x}

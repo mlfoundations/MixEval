@@ -10,7 +10,7 @@ class Vicuna_33B_V13(ChatModel):
     def __init__(self, args):
         super().__init__(args)
         self.model_name = "lmsys/vicuna-33b-v1.3"
-        self.attn_implementation = "flash_attention_2"  # If use default, set to None
+        self.attn_implementation = None  # "flash_attention_2"  # If use default, set to None
         self.openended_max_new_tokens = 512
 
         self.SYSTEM_MESSAGE = {

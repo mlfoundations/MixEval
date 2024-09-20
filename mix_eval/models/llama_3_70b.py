@@ -14,7 +14,7 @@ class Llama_3_70B(BaseModel):
     def __init__(self, args):
         super().__init__(args)
         self.model_name = "meta-llama/Meta-Llama-3-70B"
-        self.attn_implementation = "flash_attention_2"  # If use default, set to None
+        self.attn_implementation = None  # "flash_attention_2"  # If use default, set to None
 
         self.model_dtype = torch.bfloat16
 

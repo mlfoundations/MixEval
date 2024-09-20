@@ -136,7 +136,7 @@ def _eval(args):
     resume = False
     if os.path.exists(response_file):
         status = read_status(args)
-        not_gen_args = ["freeform_judge", "multichoice_judge", "max_gpu_memory", "api_parallel_num", "max_tasks"]
+        not_gen_args = ["freeform_judge", "multichoice_judge", "max_gpu_memory", "api_parallel_num", "max_tasks", "batch_size", "api_parallel_num"]
         subdict_status = {k: v for k, v in status["args"].items() if not k in not_gen_args}
         subdict_args = {k: v for k, v in args.__dict__.items() if not k in not_gen_args}
         # diff_dict = {k: v for k, v in subdict_status.items() if subdict_status[k] != subdict_args[k]}

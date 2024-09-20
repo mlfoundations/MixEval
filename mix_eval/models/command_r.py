@@ -7,7 +7,7 @@ class Command_R(ChatModel):
     def __init__(self, args):
         super().__init__(args)
         self.model_name = "CohereForAI/c4ai-command-r-v01"
-        self.attn_implementation = "flash_attention_2"  # If use default, set to None
+        self.attn_implementation = None  # "flash_attention_2"  # If use default, set to None
         self.use_fast_tokenizer = True
 
         self.SYSTEM_MESSAGE = None  # set to None if no system message

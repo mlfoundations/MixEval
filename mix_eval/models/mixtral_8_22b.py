@@ -14,7 +14,7 @@ class Mixtral_8_22B(BaseModel):
     def __init__(self, args):
         super().__init__(args)
         self.model_name = "mistralai/Mixtral-8x22B-v0.1"
-        self.attn_implementation = "flash_attention_2"  # If use default, set to None
+        self.attn_implementation = None  # "flash_attention_2"  # If use default, set to None
 
         load_dotenv()
         self.hf_token = os.getenv("_FADKLFHAKH_")

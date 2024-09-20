@@ -7,7 +7,7 @@ class Qwen_15_72B(BaseModel):
     def __init__(self, args):
         super().__init__(args)
         self.model_name = "Qwen/Qwen1.5-72B"
-        self.attn_implementation = "flash_attention_2"  # If use default, set to None
+        self.attn_implementation = None  # "flash_attention_2"  # If use default, set to None
 
         self.model = self.build_model()
         self.model_max_len = self.model.config.max_position_embeddings

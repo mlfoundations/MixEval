@@ -9,15 +9,15 @@ from mix_eval.api.registry import register_model
 from mix_eval.utils.common_utils import get_gpu_memory
 
 
-@register_model("llama_31_8b_instruct")
-class Llama_31_8B_Instruct(ChatModel):
+@register_model("llama_3p1_8b_instruct")
+class Llama_3p1_8B_Instruct(ChatModel):
     def __init__(self, args):
         super().__init__(args)
         self.model_name = "meta-llama/Meta-Llama-3.1-8B-Instruct"
-        self.attn_implementation = "flash_attention_2"  # If use default, set to None
+        self.attn_implementation = None  # "flash_attention_2"  # If use default, set to None
 
-        # self.SYSTEM_MESSAGE = {"role": "system", "content": "You are a pirate chatbot who always responds in pirate speak!"} # set to None if no system message
-        self.SYSTEM_MESSAGE = None
+        self.SYSTEM_MESSAGE = {"role": "system", "content": "You are a pirate chatbot who always responds in pirate speak!"} # set to None if no system message
+        # self.SYSTEM_MESSAGE = None
         self.USER_MESSAGE_TEMPLATE = lambda x: {"role": "user", "content": x}
         self.ASSISTANT_MESSAGE_TEMPLATE = lambda x: {"role": "assistant", "content": x}
 

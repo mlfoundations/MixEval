@@ -7,7 +7,7 @@ class MAmmooTH2_8_7B_Plus(ChatModel):
     def __init__(self, args):
         super().__init__(args)
         self.model_name = "TIGER-Lab/MAmmoTH2-8x7B-Plus"
-        self.attn_implementation = "flash_attention_2"  # If use default, set to None
+        self.attn_implementation = None  # "flash_attention_2"  # If use default, set to None
 
         self.SYSTEM_MESSAGE = {
             "role": "system",

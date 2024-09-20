@@ -7,7 +7,7 @@ class Qwen_15_4B_Chat(ChatModel):
     def __init__(self, args):
         super().__init__(args)
         self.model_name = "Qwen/Qwen1.5-4B-Chat"
-        self.attn_implementation = "flash_attention_2"  # If use default, set to None
+        self.attn_implementation = None  # "flash_attention_2"  # If use default, set to None
 
         self.SYSTEM_MESSAGE = {
             "role": "system",
